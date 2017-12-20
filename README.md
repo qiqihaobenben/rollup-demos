@@ -28,7 +28,7 @@ Rollup没有生成这些额外的东西，执行耗时主要在于`Compile Scrip
 
 * 文档相对较少，遇到问题无法快速解决
 
-### 安装
+### 安装
 
 `npm install -g rollup`
 
@@ -167,7 +167,7 @@ export default 'hello world!'
 
 如果添加更多的选项，上面这种命令行的方式就显得麻烦了，就得需要 **使用配置文件** 了。  
 
-在项目 `src/example2` 文件夹下，新建一个 `rollup.config.js` 文件，写入以下代码：  
+在项目 `src/example2` 文件夹下，新建一个 `rollup.config.js` 文件，写入以下代码：  
 ```
 export default {
     input: 'src/example2/main.js',
@@ -190,7 +190,7 @@ export default function () {
 export default 'hello config!'
 ```
 
-接下来就是运行命令，`rollup.config.js`本来是Rollup默认运行的配置文件，如果我们的`rollup.config.js`是放在根目录下的，可以直接运行`rollup -c`，不用任何选项，但是我们是放在`src/module2`文件夹下的，所以要加上配置文件的路径  
+接下来就是运行命令，`rollup.config.js`本来是Rollup默认运行的配置文件，如果我们的`rollup.config.js`是放在根目录下的，可以直接运行`rollup -c`，不用任何选项，但是我们是放在`src/module2`文件夹下的，所以要加上配置文件的路径  
 `rollup -c src/module2/rollup.config.js`  
 
 **注意**  
@@ -234,17 +234,17 @@ export default {
 
 *扩展：* json函数可以传入 `include`指定包含文件、`exclude`指定排除文件，`preferConst`如果为`true`,用const接受输出，如果为`false`，用 `var`接收输出。  
 
-**注意：** tree-shaking的作用，可以看到打包好bundle.js中只有version输入，package.json 中的其它数据被忽略了。  
+**注意：** tree-shaking的作用，可以看到打包好bundle.js中只有version输入，package.json 中的其它数据被忽略了。  
 
 ### example4
 
 Rollup 不知道怎么处理依赖于从 npm 安装到你的 `node_modules` 文件夹中的软件包。  
 
-例如，添加一个简单的依赖 [the-answer](https://www.npmjs.com/package/the-answer)，它输出对生活、宇宙及其它一切的答案，这个简单的包是用来演示如何将npm包汇总到Rollup包中。特别是, 此包在`package.json`中添加了 "main" (UMD 格式) 和 "模块" (ES2015 格式)这个两个选项。
+例如，添加一个简单的依赖 [the-answer](https://www.npmjs.com/package/the-answer)，它输出对生活、宇宙及其它一切的答案，这个简单的包是用来演示如何将npm包汇总到Rollup包中。特别是, 此包在`package.json`中添加了 "main" (UMD 格式) 和 "模块" (ES2015 格式)这个两个选项。
 
 看一下，按照普通流程引入 `the-answer` 模块会是什么结果。  
 `npm install the-answer`  
-在 `src/example4` 文件夹下新增 `main.js` 和 `rollup.config.js`  
+在 `src/example4` 文件夹下新增 `main.js` 和 `rollup.config.js`  
 ```
 // main.js
 import answer from 'the-answer';
@@ -262,7 +262,7 @@ export default {
         format: 'cjs'
     },
     plugins: [
-        // 没有加入任何插件
+        // 没有加入任何插件
     ]
 }
 ```
@@ -273,8 +273,8 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var answer = _interopDefault(require('the-answer'));
 
-// 可以看到the-answer并没有打包进来，还得用node的require去请求，然后经过函数转化才能拿到the-answer的输出值
-// 我们可以看一下 node_modules 下的 the-answer 模块暴露出的内容
+// 可以看到the-answer并没有打包进来，还得用node的require去请求，然后经过函数转化才能拿到the-answer的输出值
+// 我们可以看一下 node_modules 下的 the-answer 模块暴露出的内容
 
 var index = 42;
 export default index;
@@ -317,7 +317,7 @@ module.exports = main;
 
 ### example5
 
-类似 `the-answer` 一些库因为 `package.json`里的module选项可以让我们正常导入的ES6模块。 但是目前，npm中的大多数包都是以CommonJS模块的形式出现的。 在它们更改之前，我们需要将CommonJS模块转换为 ES2015 供 Rollup 处理。  
+类似 `the-answer` 一些库因为 `package.json`里的module选项可以让我们正常导入的ES6模块。 但是目前，npm中的大多数包都是以CommonJS模块的形式出现的。 在它们更改之前，我们需要将CommonJS模块转换为 ES2015 供 Rollup 处理。  
 
  [rollup-plugin-commonjs](https://github.com/rollup/rollup-plugin-commonjs) 插件就是用来将 CommonJS 转换成 ES2015 模块的。通常，这个插件会跟 `rollup-plugin-node-resolve`配合使用，这样就能打包 `node_modules`依赖中的CommonJS。  
  `rollup-plugin-commonjs` 应该用在其他插件转换你的模块之前 - 这是为了防止其他插件的改变破坏CommonJS的检测。  
@@ -389,8 +389,8 @@ export default {
     external: ['lodash']
 }
 ```
-配置文件中加入 `external` 就不会把第三方的库打包进我们最后的文件了。可以在 `src/example5/rollup.config.js` 中把 `external` 注释掉看看打包后的文件，会把整个 `lodsh` 打包进来。  
-*扩展：* 如果用到 `lodsh` ，可以使用  [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) 来最优选择lodash模块。  
+配置文件中加入 `external` 就不会把第三方的库打包进我们最后的文件了。可以在 `src/example5/rollup.config.js` 中把 `external` 注释掉看看打包后的文件，会把整个 `lodsh` 打包进来。  
+*扩展：* 如果用到 `lodsh` ，可以使用  [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) 来最优选择lodash模块。  
 
 ### example7
 
@@ -458,7 +458,7 @@ module.exports = main;
 ```
 
 *说明*  
-* `babel-plugin-external-helpers` 这个模块是在 `.babelrc` 文件中体现，目的是让babel转义出来的帮助性代码只在该文件的头部出现一次，而不会再每个引入的模块中加入，如果不想把这些帮助性的代码打包进你的文件，需要在rollup的配置文件中加入 `externalHelpers: true`，这样就会引用一个全局的 `babelHelpers` 对象
+* `babel-plugin-external-helpers` 这个模块是在 `.babelrc` 文件中体现，目的是让babel转义出来的帮助性代码只在该文件的头部出现一次，而不会再每个引入的模块中加入，如果不想把这些帮助性的代码打包进你的文件，需要在rollup的配置文件中加入 `externalHelpers: true`，这样就会引用一个全局的`babelHelpers` 对象
 
 
 ### 推荐资料  

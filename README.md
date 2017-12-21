@@ -118,21 +118,21 @@ export default {
 
 ```
 //打包main.js到bundle.js 打包格式是立即执行函数
-rollup main.js --o bundle.js --f iife
+rollup main.js -o bundle.js -f iife
 ```
 
 > 生成Node.js可用
 
 ```
 //打包main.js到bundle.js 打包格式是commonjs。
-rollup main.js --o bundle.js --f cjs
+rollup main.js -o bundle.js -f cjs
 ```
 
 > Node.js和浏览器都可用
 
 ```
 //打包main.js到bundle.js 打包格式是UMD,这个格式需要一个模块名
-rollup main.js --o bundle.js -f umd --name "myBundle"
+rollup main.js -o bundle.js -f umd --name "myBundle"
 ```
 
 > 运行配置文件
